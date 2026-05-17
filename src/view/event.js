@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function formatTime(date) {
   return date.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
@@ -23,15 +23,23 @@ function formatDuration(dateFrom, dateTo) {
   return `${String(minutes).padStart(2, '0')}M`;
 }
 
-export default class EventView {
-  constructor(point, destination) {
-    this._point = point;
-    this._destination = destination;
+export default class EventView extends AbstractView {
+  #point;
+  #destination;
+  #onRollupClick;
+
+  constructor(point, destination, onRollupClick) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#onRollupClick = onRollupClick;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onRollupClick);
   }
 
-  getTemplate() {
-    const {type, dateFrom, dateTo, basePrice, offers, isFavorite} = this._point;
-    const {name} = this._destination;
+  get template() {
+    const {type, dateFrom, dateTo, basePrice, offers, isFavorite} = this.#point;
+    const {name} = this.#destination;
 
     const offersHtml = offers.map(({title, price}) => `
       <li class="event__offer">
@@ -70,12 +78,5 @@ export default class EventView {
           </button>
         </div>
       </li>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
   }
 }
