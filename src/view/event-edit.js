@@ -1,18 +1,31 @@
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const EVENT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
-export default class EventEditView {
-  constructor(point, destination, offersByType, destinations) {
-    this._point = point;
-    this._destination = destination;
-    this._offersByType = offersByType;
-    this._destinations = destinations;
+export default class EventEditView extends AbstractView {
+  #point;
+  #destination;
+  #offersByType;
+  #destinations;
+  #onFormSubmit;
+  #onRollupClick;
+
+  constructor(point, destination, offersByType, destinations, onFormSubmit, onRollupClick) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offersByType = offersByType;
+    this.#destinations = destinations;
+    this.#onFormSubmit = onFormSubmit;
+    this.#onRollupClick = onRollupClick;
+
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#onFormSubmit);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onRollupClick);
   }
 
-  getTemplate() {
-    const {type, dateFrom, dateTo, basePrice, offers} = this._point;
-    const {name, description, pictures} = this._destination;
+  get template() {
+    const {type, dateFrom, dateTo, basePrice, offers} = this.#point;
+    const {name, description, pictures} = this.#destination;
 
     const typeListHtml = EVENT_TYPES.map((t) => `
       <div class="event__type-item">
@@ -20,9 +33,9 @@ export default class EventEditView {
         <label class="event__type-label event__type-label--${t}" for="event-type-${t}-1">${t}</label>
       </div>`).join('');
 
-    const destinationsHtml = this._destinations.map(({name: n}) => `<option value="${n}"></option>`).join('');
+    const destinationsHtml = this.#destinations.map(({name: n}) => `<option value="${n}"></option>`).join('');
 
-    const availableOffers = this._offersByType[type] || [];
+    const availableOffers = this.#offersByType[type] || [];
     const offersHtml = availableOffers.length ? `
       <section class="event__section event__section--offers">
         <h3 class="event__section-title event__section-title--offers">Offers</h3>
@@ -98,12 +111,5 @@ export default class EventEditView {
           </section>
         </form>
       </li>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
   }
 }
