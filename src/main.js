@@ -2,7 +2,7 @@ import {render} from './render.js';
 import FilterView from './view/filter.js';
 import TripPresenter from './presenter/trip.js';
 import PointsModel from './model/points.js';
-import {generatePoint} from './mock/point.js';
+import {generatePoint} from './mock/points.js';
 import {DESTINATIONS, OFFERS_BY_TYPE} from './mock/const.js';
 
 const model = new PointsModel();
