@@ -17,6 +17,6 @@ export default class EmptyView extends AbstractView {
   }
 
   get template() {
-    return '<p class="trip-events__msg">${MESSAGE[this.#filterType]}</p>';
+    return `<p class="trip-events__msg">${MESSAGE[this.#filterType]}</p>`;
   }
 }

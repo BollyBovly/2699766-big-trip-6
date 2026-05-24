@@ -1,4 +1,3 @@
-import {render} from './render.js';
 import TripPresenter from './presenter/trip.js';
 import FilterPresenter from './presenter/filter.js';
 import PointsModel from './model/points.js';

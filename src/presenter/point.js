@@ -43,21 +43,21 @@ export default class PointPresenter {
     );
 
     this.#eventEditView = new EventEditView(
-    this.#point,
-    this.#destination,
-    this.#offersByType,
-    this.#destinations,
-    (evt) => {
-      evt.preventDefault();
-      this.#onUserAction(UserAction.UPDATE_POINT, UpdateType.MINOR, this.#point);
-      this.#replaceFormWithPoint();
-    },
-    () => this.#replaceFormWithPoint(),
-    (point) => {
-      this.#onUserAction(UserAction.DELETE_POINT, UpdateType.MINOR, point);
-    },
-    false
-  );
+      this.#point,
+      this.#destination,
+      this.#offersByType,
+      this.#destinations,
+      (evt) => {
+        evt.preventDefault();
+        this.#onUserAction(UserAction.UPDATE_POINT, UpdateType.MINOR, this.#point);
+        this.#replaceFormWithPoint();
+      },
+      () => this.#replaceFormWithPoint(),
+      (point) => {
+        this.#onUserAction(UserAction.DELETE_POINT, UpdateType.MINOR, point);
+      },
+      false
+    );
 
     render(this.#eventView, this.#container);
   }
